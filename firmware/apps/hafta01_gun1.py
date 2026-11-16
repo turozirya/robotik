@@ -7,9 +7,9 @@ from battery import Battery
 # 3 Led Deneme
 print('---------------3 Led Deneme---------------')
 
-yesil = Led('yesil',10)
-sari = Led('sari',11)
-kirmizi = Led('kirmizi',12)
+yesil = Led(10)
+sari = Led(11)
+kirmizi = Led(12)
 
 print('ilk durum')
 print(f'yesil: {yesil.is_on()}',end='\t')

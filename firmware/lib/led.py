@@ -1,7 +1,7 @@
 class Led():
     def __init__(self,pin,status=False):  
         self.pin = pin
-        self.status= status
+        self.status= bool(status)
 
     def on(self):
         self.status = True

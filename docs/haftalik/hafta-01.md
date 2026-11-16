@@ -9,14 +9,14 @@
 ### Deneyler
 
 #### Deney 1: Metottan `self` parametresini silmek
-- **Ne yaptım:** apps klasorune deneme.py dosyasi olusturuldu, icine iki sinif yazildi bir sinifin self parametresi silindi
+- **Ne yaptım:** apps klasorune deneme.py dosyasi olusturuldu, icine iki sinif yazildi bir metodun self parametresi silindi
 - **Ne oldu:** (TypeError: Led.on() takes 0 positional arguments but 1 was given)
-- **Neden:** `kirmizi.on()` yazdığında Python bunu aslında Led.on(kirmizi) olarak çalıştırır.
+- **Neden:** `kirmizi.on()` yazdığında Python bunu aslında Led.on(kirmizi) olarak çalıştırır. Python nesneyi metoda ilk argüman olarak kendiliğinden gönderir; parametresi olmayan bir metot bu argümanı alamadığı için hata verir
 
 #### Deney 2: `yesil = sari` ataması
 - **Ne yaptım:** `yesil = sari` atamasi yapildi, `yesil.on()` çağrisi yapildi.
 - **Ne oldu:** `yesil.on()` çağrisindan sonra sari nesneside ayni sekilde degisti
-- **Neden:** `yesil = sari` ataması yapildigi icin yesil nesnesine yapilan degisiklikler sari nesnesini de etkiliyor.
+- **Neden:** `yesil = sari` ataması yapildigi icin iki isim aynı tek nesneyi gösteriyor. Eski yeşil LED nesnesine ise artık hiçbir isim ulaşamıyor.
 
 ### Hatalar
 
@@ -31,6 +31,12 @@
 - **Neden:** `self.consumed_mah = (current_ma)*(seconds/3600)`
 - **Çözüm:** `self.consumed_mah += (current_ma)*(seconds/3600)`
 - **Ders:** Kumulatif toplamlarda += kullan
+
+#### Hata 3: Led durumlari hatali
+- **Belirti:** Led durumlari yerine pin numaralari yaziyor
+- **Neden:** Led sınıfının parametrelerini Led(pin, status=False) olarak değiştirdim, ama deneme kodu hâlâ eski şekilde Led('yesil', 10) diye çağırıyor.
+- **Çözüm:** Cağrıları yeni parametrelere göre düzelttim, yani Led(10) gibi. __init__ içinde self.status = bool(status) degisiklikleri yapildi
+- **Ders:** bir sınıfın parametrelerini değiştirdiğinde, o sınıfı kullanan bütün kodu da kontrol etmelisin
 
 ## Gün 2 — 17 Kasım
 (yarın buraya)
