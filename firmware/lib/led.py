@@ -1,23 +1,19 @@
 class Led():
-    def __init__(self,isim,pin,durum=0):
-        self.isim = isim
+    def __init__(self,pin,status=False):  
         self.pin = pin
-        self.durum = durum
+        self.status= status
 
     def on(self):
-        self.durum = 1
-        print(f'{self.isim} Led Acildi')
+        self.status = True
 
     def off(self):
-        self.durum = 0
-        print(f'{self.isim} Led Kapatildi')
-
+        self.status = False
+        
     def toggle(self):
-        self.durum = 1 if self.durum == 0 else 0
-        print(f'{self.isim} Led in Durumu Degisti')
+        self.status = not self.status        
 
     def is_on(self):
-        return self.durum
+        return self.status
 
 # Dosya doğrudan çalıştırıldığında burası devreye girer
 if __name__ == "__main__":

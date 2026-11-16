@@ -4,7 +4,7 @@ class Battery():
         self.consumed_mah = 0
 
     def drain(self,current_ma,seconds):
-        self.consumed_mah = (current_ma)*(seconds/3600)
+        self.consumed_mah += (current_ma)*(seconds/3600)
         if self.consumed_mah > self.capacity_mah:
             self.consumed_mah = self.capacity_mah
        
