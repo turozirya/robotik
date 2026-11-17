@@ -1,7 +1,9 @@
 class Led():
+    count = 0       # sinif degiskeni
     def __init__(self,pin,status=False):  
         self.pin = pin
         self.status= bool(status)
+        Led.count+=1  # her nesne olusurken sinif degiskeni 1 artar
 
     def on(self):
         self.status = True
@@ -14,6 +16,8 @@ class Led():
 
     def is_on(self):
         return self.status
+
+    
 
 # Dosya doğrudan çalıştırıldığında burası devreye girer
 if __name__ == "__main__":

@@ -39,7 +39,43 @@
 - **Ders:** bir sınıfın parametrelerini değiştirdiğinde, o sınıfı kullanan bütün kodu da kontrol etmelisin
 
 ## Gün 2 — 17 Kasım
-(yarın buraya)
+### Yaptıklarım
+- Tutorial 9.3.5 (sınıf ve örnek değişkenleri) ve 9.4; konusunu incelendi.
+- __repr__/__str__ farkı; @classmethod ve @staticmethod konularinda okumalar yapildi.
+- Led sınıfına count sınıf değişkeni eklenedi, sinif degiskeni ve nesne degiskeni olarak liste eklendi ve arasindaki fark arastirildi.
+- Led sinifina __repr__ ve _str__ metodlari yazildi
+- Battery sınıfına voltage parametresi,Battery.from_config(cfg) (@classmethod), Battery.mah_to_wh(mah, volt) (@staticmethod)ve energy_wh() metotlari eklendi. 
+### Deneyler
+
+#### Deney 1: __repr__ yokken ve varken print(led) ile REPL'de yalnızca led yazmanın çıktılarını karsilastirmak.
+- **Ne yaptım:** __repr__ ve __str__ metodlari yokken,sadece __repr__ varken verken print(led) ciktilari karsilastirildi
+- **Ne oldu:** metotlerin ikiside yokken aldigim cikti <led.Led object at 0x7fff1277b230>, __str__ yokken __repr__ ciktisi aldim
+- **Neden:** Metotlar yokken nesne adresini yazdiriyor, __repr__ varsa __str__ yoksa varsayilan olarak __repr__ yazdiriliyor
+
+
+### Hatalar
+
+#### Hata 1: print(Counter.readings) hata verdi
+- **Belirti:** Consolda AttributeError: type object 'Counter' has no attribute 'readings' hatasi uretildi
+- **Neden:** Nesneye ait bir ozellige sinif uzerinden ulasilmaya calisilmasi
+- **Çözüm:** Nesneye ait bir ozellige nesne uzerinden ulasmak print(c1.readings)
+- **Ders:** Bir ozelligin nesneye mi' sinifa mi ait oldugunu kontrol et
+
+#### Hata 2: TypeError: unsupported operand type(s) for /: 'tuple' and 'int' hatasi
+- **Belirti:** Konsolda hata mesaji cikti' program durdu
+- **Neden:** Ondalik ayirici olarak ',' kullanilmasi
+- **Çözüm:** Ondalik ayirici olarak '.' kullanmak
+- **Ders:** Yazim yanlislarina dikkat et
+
+#### Hata 3: KeyError: 'capacity_mah' line 17, in from_config capacity_mah = cfg["capacity_mah"]
+- **Belirti:** Konsolda hata mesaji cikti' program durdu
+- **Neden:** Battery.from_config({"voltage": 7.4}) - zorunlu parametre olmadan,eksik parametre gondermek
+- **Çözüm:** Battery.from_config({"capacity_mah": 2000}) - zorunlu parametreleri girmek,
+- **Ders:** Zorunlu parametreleri kontrol et, hata kontrolu ekle
+
+#### Notun için soru: mah_to_wh metodunu @classmethod yapsaydın ne değişirdi?
+- parametre olarak cls eklemem gerekirdi, eklenmesse hata verir
+- Bu metodu classmehod olarak yapsaydim sinifin osellik ve metodlarina ulasabilirdim ama bu foksiyonda buna ihtiyacim yok
 
 ## Haftalık değerlendirme (Cuma doldurulacak)
 1. Bu hafta ne öğrendim?

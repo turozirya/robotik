@@ -1,7 +1,9 @@
 class Counter():
+    
     def __init__(self,step=1):
         self._value = 0
-        self.step = step
+        self.step = step 
+        self.readings = []      
 
     def increment(self):
         self._value += self.step
@@ -11,6 +13,9 @@ class Counter():
 
     def value(self):
         return self._value
+
+    def add_list(self,x):
+        self.readings.append(x)
 
 # Dosya doğrudan çalıştırıldığında burası devreye girer
 if __name__ == "__main__":
