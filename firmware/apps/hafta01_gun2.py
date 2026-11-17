@@ -3,6 +3,7 @@ sys.path.append("lib")
 from led import Led
 from counter import Counter
 from battery import Battery
+from dene import Dene
 
 
 # 1
@@ -18,8 +19,8 @@ print(kirmizi.count)
 
 # 2.1  Sinifa ait liste 
 
-c1 = Counter(1)
-c2 = Counter(2)
+c1 = Dene(1)
+c2 = Dene(2)
 
 c1.add_list('kirmizi led')
 c2.add_list('yesil led')
@@ -31,8 +32,8 @@ c2.add_list('yesil led')
 
 # 2.2 Nesneye ait liste
 
-c1 = Counter(1)
-c2 = Counter(2)
+c1 = Dene(1)
+c2 = Dene(2)
 
 c1.add_list('kirmizi led')
 c2.add_list('yesil led')
@@ -67,4 +68,4 @@ print(pil2.energy_wh())
 
 print(Battery.mah_to_wh(1000, 3.7))
 
-#Battery.from_config({"voltage": 7.4})  # KeyError: 'capacity_mah' line 17, in from_config capacity_mah = cfg["capacity_mah"]
+#Battery.from_config({"voltage": 7.4})  # ValueError: capacity_mah gerekli

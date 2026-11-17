@@ -17,7 +17,11 @@ class Led():
     def is_on(self):
         return self.status
 
-    
+    def __str__(self):
+        return f"LED {self.pin}: {'AÇIK' if self.status else 'KAPALI'}"
+
+    def __repr__(self):
+        return f"Led(pin={self.pin},status={self.status})"
 
 # Dosya doğrudan çalıştırıldığında burası devreye girer
 if __name__ == "__main__":

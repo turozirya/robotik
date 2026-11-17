@@ -47,11 +47,15 @@
 - Battery sınıfına voltage parametresi,Battery.from_config(cfg) (@classmethod), Battery.mah_to_wh(mah, volt) (@staticmethod)ve energy_wh() metotlari eklendi. 
 ### Deneyler
 
-#### Deney 1: __repr__ yokken ve varken print(led) ile REPL'de yalnızca led yazmanın çıktılarını karsilastirmak.
+#### Deney 1: Sinif ozelligini (Led.count) nesne uzerinden kullanmaya calismak (led1.count) 
+- **Ne yaptım:** Sinif ozelligi olan count degiskenine nesne uzerinden atama yaptim 'kirmizi.count = 77'
+- **Ne oldu:** Bu atama sınıf değişkenini değiştirmiyor, nesnenin üzerinde aynı adlı yeni bir değişken oluşturuyor.
+- **Neden:** Python ismi önce nesnede, sonra sınıfta arar.
+
+#### Deney 2: __repr__ yokken ve varken print(led) ile REPL'de yalnızca led yazmanın çıktılarını karsilastirmak.
 - **Ne yaptım:** __repr__ ve __str__ metodlari yokken,sadece __repr__ varken verken print(led) ciktilari karsilastirildi
 - **Ne oldu:** metotlerin ikiside yokken aldigim cikti <led.Led object at 0x7fff1277b230>, __str__ yokken __repr__ ciktisi aldim
 - **Neden:** Metotlar yokken nesne adresini yazdiriyor, __repr__ varsa __str__ yoksa varsayilan olarak __repr__ yazdiriliyor
-
 
 ### Hatalar
 
@@ -65,17 +69,17 @@
 - **Belirti:** Konsolda hata mesaji cikti' program durdu
 - **Neden:** Ondalik ayirici olarak ',' kullanilmasi
 - **Çözüm:** Ondalik ayirici olarak '.' kullanmak
-- **Ders:** Yazim yanlislarina dikkat et
+- **Ders:** Yazim yanlislarina dikkat et. Python’da virgül tuple oluşturur. Hata mesajının gösterdiği yer, hatanın kaynağı olmayabilir.
 
 #### Hata 3: KeyError: 'capacity_mah' line 17, in from_config capacity_mah = cfg["capacity_mah"]
 - **Belirti:** Konsolda hata mesaji cikti' program durdu
 - **Neden:** Battery.from_config({"voltage": 7.4}) - zorunlu parametre olmadan,eksik parametre gondermek
-- **Çözüm:** Battery.from_config({"capacity_mah": 2000}) - zorunlu parametreleri girmek,
-- **Ders:** Zorunlu parametreleri kontrol et, hata kontrolu ekle
+- **Çözüm:** Battery.from_config({"capacity_mah": 2000}) - zorunlu parametreleri girmek, try/except ile ValueError hatasini yakalamak.
+- **Ders:** Zorunlu parametreleri kontrol et, hata olabilecek yerlerde try/except hata kontrolu yap
 
 #### Notun için soru: mah_to_wh metodunu @classmethod yapsaydın ne değişirdi?
-- parametre olarak cls eklemem gerekirdi, eklenmesse hata verir
-- Bu metodu classmehod olarak yapsaydim sinifin osellik ve metodlarina ulasabilirdim ama bu foksiyonda buna ihtiyacim yok
+- parametre olarak cls eklemem gerekirdi, def mah_to_wh(cls, mah, volt): şeklinde değiştirmek zorunda kalırdık. @classmethod zorunlu cls parametresi alir.
+- Fonksiyonun içinde cls parametresini hiçbir yerde kullanmayacağımız için bu değişken hafızada ve kodda boşuna yer kaplardı. Bu metodu classmehod olarak yapsaydim sinifin ozellik ve metodlarina ulasabilirdim ama bu foksiyonda buna ihtiyacim yok.
 
 ## Haftalık değerlendirme (Cuma doldurulacak)
 1. Bu hafta ne öğrendim?
