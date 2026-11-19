@@ -2,7 +2,13 @@ import random
 class Sensor():
    def __init__(self, name, unit, min_value, max_value, noise=0.0, history_size=20, source=None):
       if min_value >= max_value:
-         raise ValueError("min_value, max_value değerinden küçük olmalıdır.")
+        raise ValueError("min_value, max_value değerinden küçük olmalıdır.")
+
+      if history_size < 1:
+        raise ValueError("history_size 0'dan buyuk bir deger olmalıdır.")
+
+      if noise < 0:
+        raise ValueError("noise negatif bir deger olamaz.")
        
       self.name = name
       self.unit = unit
@@ -13,7 +19,7 @@ class Sensor():
       self._source = source
 
       self._history = []
-      self.error_count = 0
+      self._error_count = 0
 
    def read(self):
       if self._source is None:
@@ -27,7 +33,7 @@ class Sensor():
          value = raw_value
 
       if not self.is_valid(value):
-         self.error_count += 1
+         self._error_count += 1
          return None
 
       self._history.append(value)
@@ -56,17 +62,22 @@ class Sensor():
       return self._history[:]
 
    def error_count(self):
-      pass
+      return self._error_count
        
 
-   def __repr__(self):      
-      return (
-         f"Sensor(name='{self.name}', "
-         f"unit='{self.unit}', "
-         f"n={len(self._history)}, "
-         f"average={self.average()}, "
-         f"errors={self.error_count})"
-        )
+   def __repr__(self):
+    if self.average() is None:
+        avg = None
+    else:
+       avg =  round(self.average(),2) 
+       
+    return (
+        f"Sensor(name='{self.name}', "
+        f"unit='{self.unit}', "
+        f"n={len(self._history)}, "
+        f"average={avg}, "
+        f"errors={self._error_count})"
+    )
 
 # Dosya doğrudan çalıştırıldığında burası devreye girer
 if __name__ == "__main__":

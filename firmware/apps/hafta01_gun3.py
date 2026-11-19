@@ -14,8 +14,8 @@ print("s1:",s1.average())
 print("s2:",s2.average())
 
 print("Hata Sayisi")
-print("s1:",s1.error_count)
-print("s2:",s2.error_count)
+print("s1:",s1.error_count())
+print("s2:",s2.error_count())
 
 print("len history")
 print("s1:",len(s1.history()))
@@ -32,7 +32,7 @@ print("Ortalama")
 print("s3:",s3.average())
 
 print("Hata Sayisi")
-print("s3:",s3.error_count)
+print("s3:",s3.error_count())
 
 print("len history")
 print("s3:",len(s3.history()))
@@ -45,3 +45,9 @@ print("s3:",s3)
 h = s1.history()
 h.append(9999)
 print(s1.average())
+
+print(Sensor("t", "C", 0, 100))
+
+s5 = Sensor("t", "C", 0, 100,source=lambda: 0) 
+s5.read()
+print(s5)
