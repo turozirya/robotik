@@ -81,6 +81,29 @@
 - parametre olarak cls eklemem gerekirdi, def mah_to_wh(cls, mah, volt): şeklinde değiştirmek zorunda kalırdık. @classmethod zorunlu cls parametresi alir.
 - Fonksiyonun içinde cls parametresini hiçbir yerde kullanmayacağımız için bu değişken hafızada ve kodda boşuna yer kaplardı. Bu metodu classmehod olarak yapsaydim sinifin ozellik ve metodlarina ulasabilirdim ama bu foksiyonda buna ihtiyacim yok.
 
+## Gün 3 — 18 Kasım
+### Yaptıklarım
+- Kod incelemesi yapildi
+- name-Sensorun adi, unit-Olcum birimi (°C, cm, %, vb.), min_value-Kabul edilen minimum olcum, max_value-Kabul edilen maksimum olcum, noise-Olcumde olusabilecek gurultu miktari, history_size-Hafizada tutulacak maksimum olcum sayisi, source-Gercek sensor verisini saglayacak kaynak, _history-Son gecerli olcumleri saklayan liste
+- read()-Yeni olcum uretmek, is_valid(value)-Olcum degerinin kabul edilen sinirlar icerisinde olup olmadigini belirlemek, average()-Gecmisteki gecerli olcumlerin aritmetik ortalamasini hesaplamak, history()-Olcumlerin gecmisini kullanıcıya sunmak, __repr__()- Sensor nesnesinin kisa metinsel halini olusturmak.
+
+### Deneyler
+
+#### Deney 1: Kapsülleme deneyi 
+- **Ne yaptım:** history() metodunu geçici olarak kopya yerine self._history döndürecek şekilde değiştirdim. h = s1.history(), ardından h.append(9999) sensor.average() değerine baktim. 
+- **Ne oldu:** Ortamaba bozuldu ortalamayi siniflarin cok disinda 493.73337830474173 olarak okudum
+- **Neden:** Listeyi kopya olarak dundurmedigim icin iki isimde ayni listeyi refarans gosteriyor. Yapilan ekleme diger liste icerigini de degistiriyor.
+
+
+### Hatalar
+
+#### Hata 1: if not self.is_valid(value):UnboundLocalError: cannot access local variable 'value' where it is not associated with a value
+- **Belirti:** UnboundLocalError hatasi uretildi,program durdu
+- **Neden:** if self.noise > 0 value degiskeni olusturup hesaplanan deger bu degiskene ataniyor. Fakat self.noise 0 oldugunda degisken hic olusturulmuyor.
+- **Çözüm:** else: value = raw_value satiri ile if durumu olusmasa bile degisken olusturuluyor
+- **Ders:** If icinde degisken olustururken else durumunuda ekle
+
+
 ## Haftalık değerlendirme (Cuma doldurulacak)
 1. Bu hafta ne öğrendim?
 2. Hangi parçayı `lib/`'e ekledim?
