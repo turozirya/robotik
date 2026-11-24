@@ -1,6 +1,6 @@
-# Hafta 1 — Sınıflar (16–20 Kasım 2026)
+# Hafta 1 — Sınıflar
 
-## Gün 1 — 16 Kasım
+## Gün 1
 
 ### Yaptıklarım
 - Tutorial 9.1–9.3: sınıf tanımı, nesne, __init__, self, öznitelik ve metot konusunu incelendi.
@@ -38,7 +38,7 @@
 - **Çözüm:** Cağrıları yeni parametrelere göre düzelttim, yani Led(10) gibi. __init__ içinde self.status = bool(status) degisiklikleri yapildi
 - **Ders:** bir sınıfın parametrelerini değiştirdiğinde, o sınıfı kullanan bütün kodu da kontrol etmelisin
 
-## Gün 2 — 17 Kasım
+## Gün 2
 ### Yaptıklarım
 - Tutorial 9.3.5 (sınıf ve örnek değişkenleri) ve 9.4; konusunu incelendi.
 - __repr__/__str__ farkı; @classmethod ve @staticmethod konularinda okumalar yapildi.
@@ -81,11 +81,12 @@
 - parametre olarak cls eklemem gerekirdi, def mah_to_wh(cls, mah, volt): şeklinde değiştirmek zorunda kalırdık. @classmethod zorunlu cls parametresi alir.
 - Fonksiyonun içinde cls parametresini hiçbir yerde kullanmayacağımız için bu değişken hafızada ve kodda boşuna yer kaplardı. Bu metodu classmehod olarak yapsaydim sinifin ozellik ve metodlarina ulasabilirdim ama bu foksiyonda buna ihtiyacim yok.
 
-## Gün 3 — 18 Kasım
+## Gün 3
 ### Yaptıklarım
 - Kod incelemesi yapildi
 - name-Sensorun adi, unit-Olcum birimi (°C, cm, %, vb.), min_value-Kabul edilen minimum olcum, max_value-Kabul edilen maksimum olcum, noise-Olcumde olusabilecek gurultu miktari, history_size-Hafizada tutulacak maksimum olcum sayisi, source-Gercek sensor verisini saglayacak kaynak, _history-Son gecerli olcumleri saklayan liste
 - read()-Yeni olcum uretmek, is_valid(value)-Olcum degerinin kabul edilen sinirlar icerisinde olup olmadigini belirlemek, average()-Gecmisteki gecerli olcumlerin aritmetik ortalamasini hesaplamak, history()-Olcumlerin gecmisini kullanıcıya sunmak, __repr__()- Sensor nesnesinin kisa metinsel halini olusturmak.
+- Hangi metot neyi değiştirir? sorusunun cevabi, durumu yalnızca read() değiştirir, diğer metotlar sadece okur.
 
 ### Deneyler
 
@@ -93,7 +94,6 @@
 - **Ne yaptım:** history() metodunu geçici olarak kopya yerine self._history döndürecek şekilde değiştirdim. h = s1.history(), ardından h.append(9999) sensor.average() değerine baktim. 
 - **Ne oldu:** Ortamaba bozuldu ortalamayi siniflarin cok disinda 493.73337830474173 olarak okudum
 - **Neden:** Listeyi kopya olarak dundurmedigim icin iki isimde ayni listeyi refarans gosteriyor. Yapilan ekleme diger liste icerigini de degistiriyor.
-
 
 ### Hatalar
 
@@ -103,6 +103,37 @@
 - **Çözüm:** else: value = raw_value satiri ile if durumu olusmasa bile degisken olusturuluyor
 - **Ders:** If icinde degisken olustururken else durumunuda ekle
 
+#### Hata 2: error_count degiskeni ve error_count() metodu ayni isimde 
+- **Belirti:** Sayac disaridan degistirildiginda hatali sonuc uretiliyor.
+- **Neden:** sayaç dışarıdan değiştirilebiliyor
+- **Çözüm:** Sayıyı self._error_count içinde tut, error_count() metodu onu döndürsün.
+- **Ders:** Gün 1 notuna “değişken ile metoda aynı adı verme” notu buradada gecerli. Ayni hatayi iki kere yapma . Degiskenlere ve metotlara ayni adi verme. 
+
+## Gün 4
+### Yaptıklarım
+- Bağımlılık enjeksiyonu ile ilgili okumalar yapildi.
+- Rasgele okunan degerler test edilemeyecegi icin sabit, bilinen degerler verildiginde sinifin davranisi onceden bilinecegi icin test sonucu gozlemlenebilir.
+- sensor sinifini test etmek icin test_sensor.py dosyasi yazildi.
+
+### Deneyler
+
+#### Deney 1: sensor.py içinde pop(0) yerine pop()
+- **Ne yaptım:** sensor.py içinde pop(0) yerine pop() yazildi
+- **Ne oldu:** Degisiklikten once tum tesler gecmisti sonrasinda - test_history_respects_size_limit: gecmis yanlis: [1, 2, 3] test kaldi
+- **Neden:** Liste siniri doldugunda ilk okunan degeri degil son okunan degeri sildigi icin test gecmiyor
+
+#### Deney 2: history() metodunu kopya yerine self._history
+- **Ne yaptım:** history() metodunu kopya yerine self._history döndürecek şekilde değiştirildi.
+- **Ne oldu:** Degisiklikten once tum tesler gecmisti sonrasinda - - test_history_returns_copy: disaridan degisiklik ic gecmisi etkiledi test kaldi
+- **Neden:** Liste kopya olarak dondurulmedigi icin gercek liste disardan degistirilebiliyor.
+
+### Hatalar
+
+#### Hata 1: IndexError: list index out of range
+- **Belirti:** IndexError: list index out of range hatasi uretildi,program durdu
+- **Neden:** source=SequenceSource([2, 999, 4]) ile 3 elemanli liste verildiginde 4. okumada index hatasi olusuyor
+- **Çözüm:** SequenceSource sinifinda donen degeri value = self._values[self._index % len(self._values)] ile ayni listeyi bastan dondurdum
+- **Ders:** iter ile nesne olusturuken dongu sonunu kontrol ettir
 
 ## Haftalık değerlendirme (Cuma doldurulacak)
 1. Bu hafta ne öğrendim?
