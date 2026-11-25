@@ -127,13 +127,31 @@
 - **Ne oldu:** Degisiklikten once tum tesler gecmisti sonrasinda - - test_history_returns_copy: disaridan degisiklik ic gecmisi etkiledi test kaldi
 - **Neden:** Liste kopya olarak dondurulmedigi icin gercek liste disardan degistirilebiliyor.
 
+#### Deney 3: is_valid() içinde < işaretini <= yapma
+- **Ne yaptım:** is_valid() fonksiyonu icindeki maksimum ve minimum kontrolu icin < ,<= ile degistirildi
+- **Ne oldu:** Degisiklikten once tum tesler gecmisti sonrasinda - test_read_boundary_values_are_valid ve test_is_valid tesleri kaldi
+- **Neden:** Aralik icinde olmasi gereken minimum deger aralik disi kaldi
+
 ### Hatalar
 
 #### Hata 1: IndexError: list index out of range
 - **Belirti:** IndexError: list index out of range hatasi uretildi,program durdu
 - **Neden:** source=SequenceSource([2, 999, 4]) ile 3 elemanli liste verildiginde 4. okumada index hatasi olusuyor
-- **Çözüm:** SequenceSource sinifinda donen degeri value = self._values[self._index % len(self._values)] ile ayni listeyi bastan dondurdum
-- **Ders:** iter ile nesne olusturuken dongu sonunu kontrol ettir
+- **Çözüm:** SequenceSource sinifinda donen degeri value = self._values[self._index % len(self._values)] ile ayni listeyi bastan dondurdum buda baska bir tasarim hatasina neden oldu. Hata 2 de bunu duzeltim.
+- **Ders:** iter ile nesne olusturuken dongu sonunu kontrol ettir.
+
+#### Hata 2: SequenceSource tasarim hatasi
+- **Belirti:** SequenceSource liste sinira ulastiginda tekrar bastan deger uretiyor
+- **Neden:** value = self._values[self._index % len(self._values)] ile liste sonunda mod aldigim icin tekrar ilk degeri gonduruyor.
+- **Çözüm:** SequenceSource sinifinda degil kullanilan yerde try except ile hata yakalayarak problem cozuldu.
+- **Ders:** hata cikabilecek yerlerde hatayi try except ile yakala
+
+#### Soru 1 : assert_raises_value_error(func, *args, **kwargs) fonksiyonu Sensor sınıfının parametrelerini nasıl iletiyor?
+- Python'da fonksiyon marapetre sayisi sabit degilse disaridan tuple(demet) yada dictionary(sozluk)seklinde paremetre verebiliyoruz.
+- Fonksiyonlar *args ile tuple, **kwargs ile dictionary seklinde parametre alabiliyor
+
+#### Soru 2 : SequenceSource() parametresiz oluşturulduğunda neden 1, 2, 3… döndürüyor?
+- Bunu sinirsiz sayina nesne olusturabilmek icin yaptim. SequenceSource ile sadece liste dondurdugumuzde liste eleman sayisi kadar okuma yapabiliyorduk. istedigimiz kadar okuma yapabilmek icin parametresiz cagrildiginda index arttirilip deger olarak donduruluyor.
 
 ## Haftalık değerlendirme (Cuma doldurulacak)
 1. Bu hafta ne öğrendim?

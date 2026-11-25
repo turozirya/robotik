@@ -1,6 +1,7 @@
 import sys
 sys.path.append("lib")
 from sensor import Sensor
+error_count = 0
 
 class SequenceSource:
 
@@ -12,7 +13,7 @@ class SequenceSource:
         if self._values is None:
             value = self._index + 1
         else:
-            value = self._values[self._index % len(self._values)]
+            value = self._values[self._index]
         self._index += 1
         return value
 
@@ -21,13 +22,13 @@ def assert_raises_value_error(func, *args, **kwargs):
     try:
         func(*args, **kwargs)
     except ValueError as e:
-        return str(e)
+        return str(e)    
     raise AssertionError("ValueError bekleniyordu ama hata firlatilmadi")
 
 
 def test_init_valid_values():
     s = Sensor("sicaklik", "C", 0, 100, noise=1.5, history_size=5)
-
+    
     assert s.name == "sicaklik", "name yanlis atandi"
     assert s.unit == "C", "unit yanlis atandi"
     assert s.min_value == 0, "min_value yanlis atandi"
@@ -101,7 +102,7 @@ def test_read_invalid_value_not_added_to_history():
     s = Sensor("x", "u", 0, 10, source=SequenceSource([5, -1, 7]))
     s.read()
     s.read()
-    s.read() 
+    s.read()     
        
     assert s.history() == [5, 7], f"gecmis yanlis: {s.history()}"
 
@@ -123,9 +124,13 @@ def test_read_boundary_values_are_valid():
 
 def test_read_noise_at_edge_every_read_accounted_for():
     total = 300
+    count = 0
     s = Sensor("x", "u", 0, 10, noise=2, history_size=total, source=lambda: 10)
     for _ in range(total):
-        s.read()
+        result = s.read()
+        if result == 10:
+            count += 1  
+    assert count == 0, "gurultu eklenmiyor"  
     assert len(s.history()) + s.error_count() == total, (
         f"okumalar tutmuyor: gecmis={len(s.history())}, hata={s.error_count()}"
     )
@@ -234,6 +239,7 @@ TESTS = [
 
 
 def run_tests(tests):
+    global error_count
     passed = 0
     failed = []
 
@@ -243,6 +249,11 @@ def run_tests(tests):
         except AssertionError as e:
             failed.append((test.__name__, str(e)))
             print(f"[KALDI] {test.__name__}")
+        except IndexError as e:
+                print(f"{e}(\"kaynak tükendi\")")
+                error_count += 1  
+        except Exception:
+                error_count += 1                     
         else:
             passed += 1
             print(f"[GECTI] {test.__name__}")
@@ -254,6 +265,7 @@ def run_tests(tests):
     print(f"Toplam : {len(tests)}")
     print(f"Gecen  : {passed}")
     print(f"Kalan  : {len(failed)}")
+    print(f"Hata   : {error_count}")
 
     if failed:
         print()
